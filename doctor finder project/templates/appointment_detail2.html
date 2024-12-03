@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+ .appointment-buttons {
+            margin-top: 10px;
+        }
+        .btn-approve, .btn-reject {
+            padding: 8px 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .btn-approve {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-approve:hover {
+            background-color: #218838;
+        }
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-reject:hover {
+            background-color: #c82333;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+        }
+        header nav a {
+            color: white;
+            margin: 0 15px;
+            text-decoration: none;
+        }
+        header nav a:hover {
+            text-decoration: underline;
+        }
+        section {
+            max-width: 800px;
+            margin: 30px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+        }
+
+        /* Appointment Buttons Styling */
+        .appointment-buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+            justify-content: start;
+        }
+        .btn-approve, .btn-reject {
+            padding: 8px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+        .btn-approve {
+            background-color: #28a745;
+            color: white;
+        }
+        .btn-approve:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+        .btn-reject {
+            background-color: #dc3545;
+            color: white;
+        }
+        .btn-reject:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        {% if doctor_session.get('doctor_id') %}
+            <h1>Appointment Details</h1>
+            <nav>
+                <a href="{{ url_for('doctor_home', doctor_id=doctor_session['doctor_id']) }}">Home</a> |
+                <a href="{{ url_for('appointment_detail2', doctor_id=doctor_session['doctor_id']) }}">Appointment Details</a> |
+                <a href="{{ url_for('doctor_logout') }}">Logout</a>
+            </nav>
+        {% else %}
+            <h1>Unauthorized Access</h1>
+        {% endif %}
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+            {% for category, message in messages %}
+                <li class="flash-message {{ category }}">{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    {% if doctor_session.get('doctor_id') %}
+        <section>
+            <h2>Your Appointments</h2>
+            {% if appoints %}
+                <table>
+                    <tr>
+                        <th>Patient Name</th>
+                        <th>Appointment Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                    {% for appointment in appoints %}
+                    <tr>
+                        <td>{{ appointment.patient_name }}</td>
+                        <td>{{ appointment.appointment_date }}</td>
+                        <td>{{ appointment.appointment_status }}</td>
+                        <td>
+                            <form action="{{ url_for('approve_appointment', appointment_id=appointment._id|string) }}" method="post" class="appointment-buttons">
+                                <button class="btn-approve" type="submit">Approve</button>
+                            </form>
+                            <form action="{{ url_for('reject_appointment', appointment_id=appointment._id|string) }}" method="post" class="appointment-buttons">
+                                <button class="btn-reject" type="submit">Reject</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            {% else %}
+                <p>No appointments found.</p>
+            {% endif %}
+        </section>
+    {% else %}
+        <p>You must log in as a doctor to view this page.</p>
+    {% endif %}
+</body>
+</html>

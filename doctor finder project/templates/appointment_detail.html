@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Appointment Details</h1>
+        <nav>
+            <a href="{{ url_for('patient_home') }}">Home</a> |
+            <a href="{{ url_for('appointment_detail') }}">Appointment Details</a> |
+            <a href="{{ url_for('patient_logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Appointment Information</h2>
+    
+        {% if appoints %}
+            <div class="appointments-list">
+                {% for appoint in appoints %}
+                    <div class="appointment-detail">
+                        <h3>Doctor: {{ appoint.doctor_name }}</h3>
+                        <p><strong>Patient:</strong> {{ appoint.patient_name }}</p>
+                        <p><strong>Status:</strong> {{ appoint.appointment_status }}</p>
+                        <p><strong>Specialization:</strong> {{ appoint.doctor_specialization }}</p>
+                    </div>
+                    <hr>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No appointments found.</p>
+        {% endif %}
+    </section>
+</body>
+</html>

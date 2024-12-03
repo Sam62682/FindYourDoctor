@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Admin Dashboard</h1>
+        <nav>
+            <a href="{{ url_for('admin_home') }}">Home</a> |
+            <a href="{{ url_for('admin_logout') }}">Logout</a>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Doctors</h2>
+        <ul>
+            {% for doctor in doctors %}
+            <li>
+                <div class="doctor-item">
+                    <!-- Display doctor image -->
+                    <img src="{{ url_for('static', filename=doctor.get('profile_image', 'img/download.png')) }}" alt="{{ doctor['doctor_name'] }}" class="doctor-image">
+                    <h3>{{ doctor['doctor_name'] }}</h3>
+                    <p>Specialization: {{ doctor['specialization'] }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Patients</h2>
+        <ul>
+            {% for patient in patients %}
+            <li>
+                <div class="patient-item">
+                    <p>{{ patient['name'] }}</p>
+                    <p>{{ patient['email'] }}</p>
+                </div>
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+</body>
+</html>

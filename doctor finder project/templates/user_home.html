@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <title>User Home - Doctor Finder</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome, {{ username }}</h1>
+        <img src="{{ profile_image }}" alt="Profile Image">
+        <nav>
+            <a href="{{ url_for('User_home') }}">Home</a>
+            <a href="{{ url_for('favorite') }}">Favorites</a>
+            <a href="{{ url_for('contact') }}">Contact</a>
+            <a href="{{ url_for('about') }}">About</a>
+            <a href="{{ url_for('admin_logout') }}">Logout</a>
+        </nav>
+    </header>
+    
+    <section>
+        <h2>Available Rooms</h2>
+        <ul>
+            {% for room in rooms %}
+                <li>{{ room.room_name }} - {{ room.location }}
+                    <form method="POST" action="{{ url_for('send_request', room_id=room.id) }}">
+                        <button type="submit">Request Room</button>
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+    </section>
+</body>
+</html>

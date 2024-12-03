@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ doctor['doctor_name'] }}'s Profile</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            font-size: 2.2rem;
+            font-weight: bold;
+        }
+
+        nav {
+            margin-top: 10px;
+        }
+
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 1rem;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        .doctor-profile {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            max-width: 900px;
+            margin: 40px auto;
+            background: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+            padding: 20px;
+        }
+
+        .doctor-profile img {
+            width: 250px;
+            height: 250px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-right: 30px;
+            border: 4px solid #007bff;
+        }
+
+        .doctor-profile-content {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .doctor-profile h3 {
+            font-size: 2rem;
+            color: #007bff;
+            margin-bottom: 15px;
+        }
+
+        .doctor-profile p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+
+        .doctor-profile p span {
+            font-weight: bold;
+            color: #555;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            margin: 20px 0;
+            color: #fff;
+            background: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9rem;
+        }
+
+        /* Responsiveness */
+        @media screen and (max-width: 768px) {
+            .doctor-profile {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .doctor-profile img {
+                margin-right: 0;
+                margin-bottom: 20px;
+            }
+
+            .doctor-profile-content {
+                max-width: 100%;
+                text-align: center;
+            }
+
+            nav {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>{{ doctor['doctor_name'] }}'s Profile</h1>
+        <nav>
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('doctor_login') }}">Doctor Login</a>
+            <a href="{{ url_for('patient_login') }}">Patient Login</a>
+        </nav>
+    </header>
+
+    <section>
+        <div class="doctor-profile">
+            <img src="{{ url_for('static', filename=doctor.get('profile_image', 'img/default_profile.png')) }}"
+                alt="{{ doctor['doctor_name'] }}">
+            <div class="doctor-profile-content">
+                <h3>{{ doctor['doctor_name'] }}</h3>
+                <p><span>Specialization:</span> {{ doctor['specialization'] }}</p>
+                <p><span>Contact:</span> {{ doctor['contact_number'] }}</p>
+                <p><span>Clinic Address:</span> {{ doctor['clinic_address'] }}</p>
+                <p><span>Experience:</span> {{ doctor['experience'] }} years</p>
+                <p><span>Consultation Fee:</span> &#8377;{{ doctor['consultation_fee'] }}</p>
+
+                {% if session.get('patient_id') %}
+                <form action="{{ url_for('book_appointment', doctor_id=doctor['_id']|string) }}" method="POST">
+                    <button type="submit" class="btn">Book Appointment</button>
+                </form>
+                {% else %}
+                <a href="{{ url_for('patient_login') }}" class="btn">Login to Book Appointment</a>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Doctor Finder. All rights reserved.</p>
+    </footer>
+</body>
+
+</html>

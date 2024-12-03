@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        a:hover {
+            color: #0056b3;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: #007BFF;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        nav a {
+            margin-left: 15px;
+            font-size: 1rem;
+            font-weight: bold;
+        }
+
+        /* Main Section */
+        section {
+            padding: 20px;
+            max-width: 800px;
+            margin: 50px auto;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .doctor-profile {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+        }
+        .doctor-profile img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .doctor-profile-content {
+            flex: 1;
+        }
+        .doctor-profile-content h3 {
+            margin: 0;
+            font-size: 1.8rem;
+            color: #007BFF;
+        }
+        .doctor-profile-content p {
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+        .doctor-profile-content p span {
+            font-weight: bold;
+        }
+
+        /* Footer Styles */
+        footer {
+            text-align: center;
+            background-color: #f4f4f9;
+            padding: 15px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #666;
+            border-top: 1px solid #ddd;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .doctor-profile {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .doctor-profile img {
+                margin-bottom: 20px;
+            }
+            .doctor-profile-content h3 {
+                font-size: 1.5rem;
+            }
+            .doctor-profile-content p {
+                font-size: 1rem;
+            }
+        }
+    </style>
+    <title>Doctor Home</title>
+</head>
+<body>
+    <header>
+        <h1>Welcome, Dr. {{ doctor_name }}</h1>
+        <nav>
+            <a href="{{ url_for('doctor_home', doctor_id=session['doctor_id']) }}">Home</a>
+            <a href="{{ url_for('appointment_detail2') }}">Appointments</a>
+        </nav>
+    </header>
+
+    <section>
+        <div class="doctor-profile">
+            <img src="{{ url_for('static', filename=doctor.get('profile_image', 'img/default_profile.png')) }}" alt="{{ doctor['doctor_name'] }}">
+            <div class="doctor-profile-content">
+                <h3>{{ doctor['doctor_name'] }}</h3>
+                <p><span>Specialization:</span> {{ doctor['specialization'] }}</p>
+                <p><span>Contact:</span> {{ doctor['contact_number'] }}</p>
+                <p><span>Clinic Address:</span> {{ doctor['clinic_address'] }}</p>
+                <p><span>Experience:</span> {{ doctor['experience'] }} years</p>
+                <p><span>Consultation Fee:</span> &#8377;{{ doctor['consultation_fee'] }}</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Doctor Finder. All rights reserved.</p>
+    </footer>
+</body>
+</html>

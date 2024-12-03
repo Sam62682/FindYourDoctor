@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1>Doctor Search Results</h1>
+    {% if doctors %}
+        <ul>
+        {% for doctor in doctors %}
+            <li>
+                <strong>{{ doctor['name'] }}</strong><br>
+                Specialty: {{ doctor['specialty'] }}<br>
+                Location: {{ doctor['location'] }}<br>
+                Contact: {{ doctor['contact'] }}<br>
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <p>No doctors found for the given search criteria.</p>
+    {% endif %}
+    
+    <a href="/">Back to Search</a>
+</body>
+</html>

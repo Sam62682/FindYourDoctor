@@ -1,0 +1,39 @@
+<!-- doctor_dashboard.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>Welcome, Dr. {{ session['doctor_name'] }}</h1>
+        <nav>
+            <a href="{{ url_for('doctor_dashboard') }}">Dashboard</a> |
+            <a href="{{ url_for('doctor_logout') }}">Logout</a> |
+            <a href="{{ url_for('patient_home') }}">Patient Home</a> |
+            <a href="{{ url_for('admin_home') }}">Admin Dashboard</a>
+        </nav>
+    </header>
+
+    <section>
+        <h2>Your Appointments</h2>
+
+        {% if appointments %}
+            <ul>
+                {% for appointment in appointments %}
+                    <li>
+                        <p>Patient: {{ appointment['patient_name'] }}</p>
+                        <p>Status: {{ appointment['appointment_status'] }}</p>
+                        <a href="{{ url_for('appointment_details', appointment_id=appointment['_id']) }}">View Details</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>You have no upcoming appointments.</p>
+        {% endif %}
+    </section>
+</body>
+</html>

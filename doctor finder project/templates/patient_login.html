@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+
+    <title>Patient Login - Doctor Finder</title>
+    <style>
+        /* Center the paragraph with the link */
+        p {
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 20px;
+            /* Optional: Adds space above the text */
+        }
+
+        a {
+            color: #007BFF;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Patient Login</h1>
+    </header>
+
+    <section>
+        <form method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" name="password" required><br>
+
+            <button type="submit">Login</button>
+        </form>
+
+        <p>Don't have an account? <a href="{{url_for('patient_register')}}">Register here</a></p>
+    </section>
+</body>
+
+</html>
